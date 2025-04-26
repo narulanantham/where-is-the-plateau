@@ -1,5 +1,4 @@
 # where-is-the-plateau
-An experiment in whether running less will make me faster (and less injured) 
 
 Rules for data collection:
 
