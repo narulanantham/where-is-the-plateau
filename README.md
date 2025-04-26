@@ -7,8 +7,6 @@ Rules for data collection:
 - All runs are at an easy to tempo effort (no long runs, no interval training)
 - Strength training is non-negotiable (2-3x per week; warm-up on the elliptical)
 
-Most Recent Pace Projection Plot:
 ![average_pace_projection](https://github.com/user-attachments/assets/5731757d-91fa-4e02-93e0-bd8c2629f8e1)
 
-Other Key Metrics (heart rate shouldn't trend, to maintain run effort over time):
 ![three_panel_metrics](https://github.com/user-attachments/assets/35ac3bc6-5598-41d3-b16c-0d27236f7f39)
