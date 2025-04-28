@@ -1,12 +1,13 @@
 # where-is-the-plateau
 
+TL;DR - I'm tracking how my average running pace is changing over time, while sticking to a training schedule of just 3-4 30 minute runs per week.  
+
 Rules for data collection:
 
-- Dec. 2024 to March 2025: 30 minute runs, 3x per week 
+- Dec. 2024 to March 2025: 30 minute runs, 3x per week (phase 1; strongly "suggested" by PTs)
 - April 2025 to present: 30 minute runs, 4x per week (includes the occasional 3-4 mile Monday night group run, which takes 5-10 minutes longer)
-- All runs are at an easy to tempo effort (no long runs, no interval training)
+- All runs are at an easy to tempo effort (no long runs, no interval training, definitely no sprinting)
 - Strength training is non-negotiable (2-3x per week; warm-up on the elliptical)
 
-![average_pace_projection](https://github.com/user-attachments/assets/5731757d-91fa-4e02-93e0-bd8c2629f8e1)
-
-![three_panel_metrics](https://github.com/user-attachments/assets/35ac3bc6-5598-41d3-b16c-0d27236f7f39)
+![average_pace_projection](https://github.com/user-attachments/assets/620760a3-68e8-460d-a8ba-c07e8aa405bf)
+![three_panel_metrics](https://github.com/user-attachments/assets/6a910957-3e45-4b29-b209-ef4cb43f8441)
