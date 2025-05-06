@@ -18,7 +18,10 @@ df_updated = df_updated.sort_values(by='Date')
 date_nums_updated = df_updated['Date'].map(pd.Timestamp.toordinal)
 
 # Linear regression for average pace
-slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated, df_updated['Average Pace (min/mile)'])
+# slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated, df_updated['Average Pace (min/mile)'])
+# Keeping these fixed at values from 4/30/25, to see how linear progression changes over time
+slope_updated = -0.013798654082783704
+intercept_updated = 10212.635122621794
 
 # Predict date for 7.8 min/mile
 target_pace = 7.8
@@ -30,7 +33,7 @@ plt.figure(figsize=(8, 5))
 plt.plot(df_updated['Date'], df_updated['Average Pace (min/mile)'], color="orange", marker='o', linestyle='-', label='Data')
 
 # Trendline
-x_vals = np.linspace(min(date_nums_updated), max(date_nums_updated) + 100, 200)
+x_vals = np.linspace(min(date_nums_updated), max(date_nums_updated) + 200, 200)
 y_vals = slope_updated * x_vals + intercept_updated
 dates_fit = [pd.Timestamp.fromordinal(int(d)) for d in x_vals]
 plt.plot(dates_fit, y_vals, linestyle='--', color='blue', label='Linear Trendline')
