@@ -18,10 +18,10 @@ df_updated = df_updated.sort_values(by='Date')
 date_nums_updated = df_updated['Date'].map(pd.Timestamp.toordinal)
 
 # Linear regression for average pace
-# slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated, df_updated['Average Pace (min/mile)'])
+slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated, df_updated['Average Pace (min/mile)'])
 # Keeping these fixed at values from 4/30/25, to see how linear progression changes over time
-slope_updated = -0.013798654082783704
-intercept_updated = 10212.635122621794
+slope_fixed = -0.013798654082783704
+intercept_fixed = 10212.635122621794
 
 # Predict date for 7.8 min/mile
 target_pace = 7.8
@@ -48,7 +48,8 @@ plt.xlabel('Date')
 plt.ylabel('Average Pace (min/mile)')
 plt.grid(True)
 plt.legend()
-plt.xticks(rotation=45)
+plt.gca().minorticks_on()
+plt.xticks(rotation=0)
 plt.tight_layout()
 plt.savefig("average_pace_projection.png", format="png")
 
@@ -76,6 +77,7 @@ def plot_metric_with_stats(x, y, index, title, ylabel):
     plt.ylabel(ylabel)
     plt.grid(True)
     plt.legend()
+    plt.gca().minorticks_on()
     plt.xticks(rotation=0)
 
 # Plot each metric
