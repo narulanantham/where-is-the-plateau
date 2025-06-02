@@ -17,11 +17,26 @@ df_updated = df_updated.sort_values(by='Date')
 # Convert dates to ordinal for regression
 date_nums_updated = df_updated['Date'].map(pd.Timestamp.toordinal)
 
+# Rolling slope calculation (10-run window)
+window_size = 12
+R2 = []
+
+if len(df_updated) >= window_size:
+    for i in range(len(df_updated) - window_size + 1):
+        x = date_nums_updated.iloc[i:i + window_size].values
+        y = df_updated['Average Pace (min/mile)'].iloc[i:i + window_size].values
+
+        slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+
+        R2.append(r_value ** 2.)
+
+    slope_dates = df_updated['Date'].iloc[window_size - 1:].reset_index(drop=True)
+else:
+    R2 = []
+    slope_dates = []
+
 # Linear regression for average pace
 slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated, df_updated['Average Pace (min/mile)'])
-# Keeping these fixed at values from 4/30/25, to see how linear progression changes over time
-slope_fixed = -0.013798654082783704
-intercept_fixed = 10212.635122621794
 
 # Predict date for 7.8 min/mile
 target_pace = 7.8
@@ -54,11 +69,11 @@ plt.tight_layout()
 plt.savefig("average_pace_projection.png", format="png")
 
 # === Plot 3: 3-panel chart with R² and p-values included ===
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(15, 14))
 
 # Helper to plot each subplot with regression stats
 def plot_metric_with_stats(x, y, index, title, ylabel):
-    plt.subplot(3, 1, index)
+    plt.subplot(4, 1, index)
     plt.plot(df_updated['Date'], y, marker='o', color="orange", linestyle='-', label='Data')
 
     slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
@@ -89,6 +104,19 @@ plot_metric_with_stats(date_nums_updated, df_updated['Average Heart Rate (beats/
 
 plot_metric_with_stats(date_nums_updated, df_updated['Beats per Mile'], 3,
                        'Date vs. Beats per Mile', 'Beats per Mile')
+
+plt.subplot(4, 1, 4)
+plt.plot(slope_dates, R2, marker='o', linestyle='-', color='purple')
+slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+r_squared = r_value ** 2
+stats_text = f"$R^2$ = {r_squared:.2f}, p = {p_value:.3g}"
+plt.text(0.01, 0.95, stats_text, transform=plt.gca().transAxes,
+         fontsize=10, verticalalignment='top', bbox=dict(facecolor='white', edgecolor='gray', boxstyle='round'))
+plt.title(r'Change in R$^{2}$ over Time (%s Day Rolling Measurement)' % str(window_size))
+plt.xlabel('Date')
+plt.ylabel(r'R$^{2}$')
+plt.grid(True)
+plt.xticks(rotation=0)
 
 plt.tight_layout()
 plt.savefig("three_panel_metrics.png", format="png")
