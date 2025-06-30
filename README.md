@@ -9,8 +9,8 @@ Rules for data collection:
 - Dec. 2024 to March 2025: 30 minute runs, 3x per week (phase 1; strongly "suggested" by PTs)
 - April 2025 to mid-June 2025: 30 minute runs, 4x per week (phase 2)
 - mid-June 2025 to present: 30 minute runs, 3x per week + 60 minute run 1x per week (phase 3, started early)
-  - Includes the occasional Monday night group run, which takes 35-40 minutes longer
-  - All runs are at an easy to tempo effort, as determined by average heart rate (flat over time)  
+  - Includes the occasional Monday night group run, which takes 35-40 minutes
+  - All runs are at an easy to tempo effort, as determined by average heart rate (flat over time; slight increase during summer)  
   - No interval training, definitely no sprinting :(
   - Strength training is non-negotiable (2-3x per week; warm-up on the elliptical)
   - Treadmill runs aren't included on the plot (average pace gets jumbled)
