@@ -16,6 +16,7 @@ df_updated = df_updated.sort_values(by='Date')
 
 # Convert dates to ordinal for regression
 date_nums_updated = df_updated['Date'].map(pd.Timestamp.toordinal)
+dates_30min = np.argwhere(df_updated["Long Run?"] == 0).flatten()
 
 # Rolling slope calculation (10-run window)
 window_size = 12
@@ -35,8 +36,11 @@ else:
     R2 = []
     slope_dates = []
 
-# Linear regression for average pace
-slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated, df_updated['Average Pace (min/mile)'])
+df_updated_30min = df_updated[df_updated["Long Run?"] == 0]
+df_updated_long = df_updated[df_updated["Long Run?"] == 1]
+
+# Linear regression for average pace, based on 30 minute runs
+slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated[dates_30min], df_updated_30min['Average Pace (min/mile)'])
 
 # Predict date for 7.8 min/mile
 target_pace = 7.8
@@ -45,7 +49,8 @@ predicted_date_updated = pd.Timestamp.fromordinal(int(target_date_num_updated))
 
 # === Plot 1: Projected Pace Over Time ===
 plt.figure(figsize=(8, 5))
-plt.plot(df_updated['Date'], df_updated['Average Pace (min/mile)'], color="orange", marker='o', linestyle='-', label='Data')
+plt.plot(df_updated_30min['Date'], df_updated_30min['Average Pace (min/mile)'], color="orange", marker='o', linestyle='-', label='30 Minute Runs')
+plt.plot(df_updated_long['Date'], df_updated_long['Average Pace (min/mile)'], color="green", marker='*', markersize=16, linestyle=None, label='Long Runs')
 
 # Trendline
 x_vals = np.linspace(min(date_nums_updated), max(date_nums_updated) + 200, 200)
@@ -55,6 +60,9 @@ plt.plot(dates_fit, y_vals, linestyle='--', color='blue', label='Linear Trendlin
 
 # Projection markers
 plt.axhline(y=7.8, color='gray', linestyle=':', label='Target Pace (7.8 min/mile)')
+# plt.axhline(y=10.35, color='green', linestyle=':', label='Summer Plateau (10.3 min/mile)')
+# plt.scatter([dates_fit[86]], [10.35], color='green', marker='*', zorder=5)
+
 plt.axvline(x=predicted_date_updated, color='red', linestyle='--', label=f'Predicted Date\n({predicted_date_updated.date()})')
 plt.scatter([predicted_date_updated], [7.8], color='red', marker="*", zorder=5)
 
