@@ -39,8 +39,8 @@ else:
 df_updated_30min = df_updated[df_updated["Long Run?"] == 0]
 df_updated_long = df_updated[df_updated["Long Run?"] == 1]
 
-# Linear regression for average pace, based on 30 minute runs
-slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated[dates_30min], df_updated_30min['Average Pace (min/mile)'])
+# Linear regression for average pace, based on 30 minute runs prior to July 1st, 2025 (summer plateau)
+slope_updated, intercept_updated, *_ = stats.linregress(date_nums_updated[dates_30min][0:75], df_updated_30min['Average Pace (min/mile)'][0:75])
 
 # Predict date for 7.8 min/mile
 target_pace = 7.8
@@ -50,20 +50,20 @@ predicted_date_updated = pd.Timestamp.fromordinal(int(target_date_num_updated))
 # === Plot 1: Projected Pace Over Time ===
 plt.figure(figsize=(8, 5))
 plt.plot(df_updated_30min['Date'], df_updated_30min['Average Pace (min/mile)'], color="orange", marker='o', linestyle='-', label='30 Minute Runs')
-plt.plot(df_updated_long['Date'], df_updated_long['Average Pace (min/mile)'], color="green", marker='*', markersize=16, linestyle=None, label='Long Runs')
+plt.plot(df_updated_long['Date'], df_updated_long['Average Pace (min/mile)'], color="green", marker='*', markersize=8, linestyle=None, label='>60 Minute Runs')
 
 # Trendline
-x_vals = np.linspace(min(date_nums_updated), max(date_nums_updated) + 200, 200)
+x_vals = np.linspace(min(date_nums_updated), max(date_nums_updated) + 125, 25)
 y_vals = slope_updated * x_vals + intercept_updated
 dates_fit = [pd.Timestamp.fromordinal(int(d)) for d in x_vals]
 plt.plot(dates_fit, y_vals, linestyle='--', color='blue', label='Linear Trendline')
 
 # Projection markers
-plt.axhline(y=7.8, color='gray', linestyle=':', label='Target Pace (7.8 min/mile)')
+plt.axhline(y=7.8, color='gray', linestyle=':', label='Pre-Injury Baseline')
 # plt.axhline(y=10.35, color='green', linestyle=':', label='Summer Plateau (10.3 min/mile)')
 # plt.scatter([dates_fit[86]], [10.35], color='green', marker='*', zorder=5)
 
-plt.axvline(x=predicted_date_updated, color='red', linestyle='--', label=f'Predicted Date\n({predicted_date_updated.date()})')
+plt.axvline(x=predicted_date_updated, color='red', linestyle='--', label=f'Predicted Recovery Date\n({predicted_date_updated.date()})')
 plt.scatter([predicted_date_updated], [7.8], color='red', marker="*", zorder=5)
 
 plt.title('Projected Average Pace Over Time')
